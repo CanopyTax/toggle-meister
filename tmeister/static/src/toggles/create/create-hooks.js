@@ -46,10 +46,14 @@ function useCreate({name, api, visibleError}) {
           setSaving(false)
           setSaved(true)
         } else {
-          throw new Error(`Server responded with status ${response.status}`);
+          throw response
         }
       }).catch(err => {
-        toasts.generalToast(`${visibleError}: ${JSON.stringify(err)}`)
+        if (err.text) {
+          err.json().then(text => toasts.generalToast(`${visibleError}: ${text.Message ? text.Message : text}`))
+        } else {
+          toasts.generalToast(`${visibleError}: ${err.status ? err.status : ''} ${err.message}`)
+        }
         setSaving(false)
         setSaved(false)
         throw new Error(err);

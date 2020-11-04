@@ -1,4 +1,4 @@
-name: 
+name:
 
 on: [push]
 
@@ -6,7 +6,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@master
     - name: build docker
@@ -21,7 +21,7 @@ jobs:
 
   test:
     needs: build
-    runs-on: canopytax/toggle-meister:$GITHUB_SHA
+    runs-on: canopytax/toggle-meister:$CI_COMMIT_SHA
 
     steps:
     - name: test
